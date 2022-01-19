@@ -1,0 +1,48 @@
+version: "3.1"
+services:
+  db-serta:
+    image: mongo:4.2
+    container_name: db-serta
+    restart: always
+    # env_file:
+    #   - .env
+    ports:
+      - ${DB_PORT}:27017
+    environment:
+      MONGO_INITDB_DATABASE: ${DB_NAME}
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASS}
+    networks:
+        - net-serta
+
+  api-serta:
+    image: node:10.14.0
+    # build: .
+    # image: node:latest
+    container_name: api-serta
+    restart: always
+    env_file:
+     - .env
+    depends_on:
+      - db-serta
+    ports:
+      - ${SERVER_PORT}:${SERVER_PORT}
+    networks:
+        - net-serta
+    volumes:
+      - .:/usr/src/app
+    working_dir: /usr/src/app
+    # command: npm init -y -> -> na primeira vez que rodar deve
+    # command: npm install -> na segunda vez - obs: as dependências ja devem estar no arquivo package.json, assim como o script de start
+    command: npm start
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+networks:
+  net-serta:
+    external:
+      name: net-serta
+    # driver: "bridge"
