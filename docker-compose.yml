@@ -12,6 +12,8 @@ services:
       MONGO_INITDB_DATABASE: ${DB_NAME}
       MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${DB_PASS}
+    volumes:
+      - mongodbdata:/data/db
     networks:
         - net-serta
 
@@ -46,3 +48,8 @@ networks:
     external:
       name: net-serta
     # driver: "bridge"
+
+
+volumes:
+  mongodbdata:
+    driver: local
