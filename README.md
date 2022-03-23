@@ -1,2 +1,2 @@
 # api-wa-laboratory
-Api RESTful builded using node.js to laboratories management
+Api RESTfull builded using node.js to laboratories management
