@@ -1,11 +1,9 @@
 version: "3.1"
 services:
-  db-serta:
+  db-wa:
     image: mongo:4.2
-    container_name: db-serta
+    container_name: db-wa
     restart: always
-    # env_file:
-    #   - .env
     ports:
       - ${DB_PORT}:27017
     environment:
@@ -17,28 +15,24 @@ services:
     volumes:
       - mongodbdata:/data/db
     networks:
-        - net-serta
+        - net-wa
 
-  api-serta:
+  api-wa:
     image: node:10.14.0
-    # build: .
-    # image: node:latest
-    container_name: api-serta
+    container_name: api-wa
     restart: always
     env_file:
      - .env
     depends_on:
-      - db-serta
+      - db-wa
     ports:
       - ${SERVER_PORT}:${SERVER_PORT}
     networks:
-        - net-serta
+        - net-wa
     volumes:
       - .:/usr/src/app
     working_dir: /usr/src/app
-    # command: npm init -y -> -> na primeira vez que rodar deve
-    # command: npm install -> na segunda vez - obs: as dependências ja devem estar no arquivo package.json, assim como o script de start
-    command: npm start
+    command: bash -c "npm init -y && npm install && npm start" 
     logging:
       driver: "json-file"
       options:
@@ -46,9 +40,9 @@ services:
         max-file: "5"
 
 networks:
-  net-serta:
+  net-wa:
     external:
-      name: net-serta
+      name: net-wa
     # driver: "bridge"
 
 
