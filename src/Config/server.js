@@ -1,9 +1,9 @@
 const port = 3000
-const bodyParser = require('body-parser')
-const express = require('express')
+const bodyParser = require("body-parser")
+const express = require("express")
 const server = express()
-const allowCors = require('./cors')
-const queryParser = require('express-query-int')
+const allowCors = require("./cors")
+const queryParser = require("express-query-int")
 
 
 server.use(bodyParser.urlencoded({extended:true}))
@@ -12,11 +12,11 @@ server.use(queryParser())
 server.use(allowCors)
 
 server.listen(process.emit.PORT||port,()=>{
-    console.log("Backend rodando na porta " + port)
+	console.log("Backend rodando na porta " + port)
 })
 
-server.get('/',(req,resp)=>{
-    resp.send("Test Working")
+server.get("/",(req,resp)=>{
+	resp.send("Test Working")
 })
 
 module.exports = server
